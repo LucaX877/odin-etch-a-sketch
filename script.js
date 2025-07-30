@@ -5,8 +5,13 @@ function drawGrid(number) {
         for (let j = 0; j < number; j++) {
             grid.lastChild.appendChild(document.createElement("div"));
             grid.lastChild.lastChild.style.padding = `${16/number * 19}px`;
-            grid.lastChild.lastChild.backgroundColor = "rgb(100,149,237)";
+            grid.lastChild.lastChild.style.backgroundColor = "rgb(100,149,237)";
             grid.lastChild.lastChild.classList.add("square");
+            if (showGrid) {
+                grid.lastChild.lastChild.style.border = "1px solid black";
+            } else if (!showGrid) {
+                grid.style.border = "1px solid black";
+            }
         }
     }
     if (isNormal) drawingNormal();
@@ -38,7 +43,7 @@ function handleShade(e) {
     let green = parseInt(values[1]);
     let blue = parseInt(values[2]);
     let match = red == 255 && green == 192 && blue == 203;
-    if (values.length == 1 || !match) e.target.style.backgroundColor = "rgba(255,192,203,0.1)";
+    if (!match) e.target.style.backgroundColor = "rgba(255,192,203,0.1)";
     if (values.length == 4) {
         let opacity = parseFloat(values[3].slice(-4,-1));
         e.target.style.backgroundColor = `rgba(255,192,203,${Math.min(1,opacity + 0.1)})`
@@ -95,6 +100,8 @@ const normalButton = document.querySelector(".normalButton");
 const rainbowButton = document.querySelector(".rainbowButton");
 const shadingButton = document.querySelector(".shadingButton");
 const eraserButton = document.querySelector(".eraserButton");
+const toggleButton = document.querySelector(".toggleButton");
+let showGrid = true;
 let isNormal = true, isRainbow = false, isEraser = false, isShading = false;
 let number = 16;
 
@@ -120,6 +127,23 @@ resizeButton.addEventListener("click", () => {
 
     let number = Math.min(parseInt(prompt("Enter number (1 - 64): ")),64);
     drawGrid(number);
+})
+
+toggleButton.addEventListener("click", () => {
+    let squares = grid.querySelectorAll(".square");
+    if (showGrid) {
+        for (let square of squares) {
+            square.style.border = "0px";
+        }
+        grid.style.border = "1px solid black";
+        showGrid = false;
+    } else if (!showGrid) {
+        grid.style.border = "0px";
+        for (let square of squares) {
+            square.style.border = "1px solid black";
+        }
+        showGrid = true;
+    }
 })
 
 normalButton.addEventListener("click", () => {
