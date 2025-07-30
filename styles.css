@@ -39,6 +39,6 @@ div {
     display: flex;
 }
 
-.grid .row div {
+.grid .square {
     border: 1px solid black;
 }
