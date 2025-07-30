@@ -24,13 +24,15 @@ div {
 }
 
 .grid {
-    width: 640px;
-    height: 640px;
     margin: auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
-.grid div {
+.grid .row {
+    display: flex;
+}
+
+.grid .row div {
     border: 1px solid black;
 }

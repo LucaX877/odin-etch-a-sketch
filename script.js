@@ -1,8 +1,12 @@
 function drawGrid(number) {
-    for (let i = 0; i < number * number; i++) {
+    for (let i = 0; i < number; i++) {
         grid.appendChild(document.createElement("div"));
-        grid.lastChild.style.height = 640/number + "px";
-        grid.lastChild.style.width = 640/number + "px";
+        grid.lastChild.classList.add("row");
+        for (let j = 0; j < number; j++) {
+            grid.lastChild.appendChild(document.createElement("div"));
+            grid.lastChild.lastChild.style.padding = `${16/number * 19}px`;
+            grid.lastChild.lastChild.classList.add("square");
+        }
     }
     if (isNormal) drawingNormal();
     else if (isRainbow) drawingRainbow();
@@ -11,7 +15,7 @@ function drawGrid(number) {
 function drawingNormal() {
     isNormal = true, isRainbow = false;
 
-    let squares = grid.querySelectorAll("div");
+    let squares = grid.querySelectorAll(".square");
 
     for (let square of squares) {
         square.addEventListener("mousemove", () => {
@@ -23,7 +27,7 @@ function drawingNormal() {
 function drawingRainbow() {
     isNormal = false, isRainbow = true;
 
-    let squares = grid.querySelectorAll("div");
+    let squares = grid.querySelectorAll(".square");
 
     for (let square of squares) {
         square.addEventListener("mousemove", () => {
@@ -33,7 +37,6 @@ function drawingRainbow() {
             square.style.backgroundColor = `rgb(${random_red},${random_green},${random_blue})`;
         })
     }
-
 }
 
 const grid = document.querySelector(".grid");
