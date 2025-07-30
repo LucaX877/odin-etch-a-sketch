@@ -20,7 +20,13 @@ div {
 .main {
     background-color: cornflowerblue;
     display: flex;
-    padding: 10px;
+    padding: 10px 10px 10px 120px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .grid {

@@ -40,13 +40,23 @@ function drawingRainbow() {
 }
 
 const grid = document.querySelector(".grid");
-const resetButton = document.querySelector(".resetButton");
+const clearButton = document.querySelector(".clearButton");
+const resizeButton = document.querySelector(".resizeButton");
 const normalButton = document.querySelector(".normalButton");
 const rainbowButton = document.querySelector(".rainbowButton");
 let isNormal = true, isRainbow = false;
+let number = 16;
 
-resetButton.addEventListener("click", () => {
-    let squares = grid.querySelectorAll("div");
+clearButton.addEventListener("click", () => {
+    let squares = grid.querySelectorAll(".square");
+    
+    for (let square of squares) {
+        square.style.backgroundColor = "transparent";
+    }
+})
+
+resizeButton.addEventListener("click", () => {
+    let squares = grid.querySelectorAll(".square");
     
     for (let square of squares) {
         square.remove();
@@ -65,4 +75,4 @@ rainbowButton.addEventListener("click", () => {
     drawingRainbow();
 });
 
-drawGrid(16);
+drawGrid(number);
