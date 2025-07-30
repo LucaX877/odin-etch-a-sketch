@@ -1,40 +1,65 @@
-const container = document.querySelector(".container");
-
 function drawGrid(number) {
     for (let i = 0; i < number * number; i++) {
-        if (i % number == number - 1) {
-            container.appendChild(document.createElement("div"));
-            container.lastChild.style.borderRight = "2px solid black";
-        } else if (i % number == 0) {
-            container.appendChild(document.createElement("div"));
-            container.lastChild.style.borderLeft = "2px solid black";
-        } else container.appendChild(document.createElement("div"));
-        container.lastChild.style.height = 640/number + "px";
-        container.lastChild.style.width = 640/number + "px";
+        grid.appendChild(document.createElement("div"));
+        grid.lastChild.style.height = 640/number + "px";
+        grid.lastChild.style.width = 640/number + "px";
     }
-    squares = drawingEvent();
-    return squares;
+    if (isNormal) drawingNormal();
+    else if (isRainbow) drawingRainbow();
 }
 
-function drawingEvent() {
-    let squares = container.querySelectorAll("div");
+function drawingNormal() {
+    isNormal = true, isRainbow = false;
+
+    let squares = grid.querySelectorAll("div");
 
     for (let square of squares) {
         square.addEventListener("mousemove", () => {
-            square.classList.add("hit");
+            square.style.backgroundColor = "pink";
         })
     }
-    return squares
 }
 
-const button = document.querySelector("button");
-button.addEventListener("click", () => {
+function drawingRainbow() {
+    isNormal = false, isRainbow = true;
+
+    let squares = grid.querySelectorAll("div");
+
+    for (let square of squares) {
+        square.addEventListener("mousemove", () => {
+            let random_red = Math.floor(Math.random() * 256);
+            let random_green = Math.floor(Math.random() * 256);
+            let random_blue = Math.floor(Math.random() * 256);
+            square.style.backgroundColor = `rgb(${random_red},${random_green},${random_blue})`;
+        })
+    }
+
+}
+
+const grid = document.querySelector(".grid");
+const resetButton = document.querySelector(".resetButton");
+const normalButton = document.querySelector(".normalButton");
+const rainbowButton = document.querySelector(".rainbowButton");
+let isNormal = true, isRainbow = false;
+
+resetButton.addEventListener("click", () => {
+    let squares = grid.querySelectorAll("div");
+    
     for (let square of squares) {
         square.remove();
     }
-    alert("Max number is 70");
-    let number = Math.min(parseInt(prompt("Enter number: ")),70)
-    squares = drawGrid(number);
+    let number = Math.min(parseInt(prompt("Enter number (1 - 64): ")),64);
+    drawGrid(number);
 })
 
-squares = drawGrid(16);
+normalButton.addEventListener("click", () => {
+    isNormal = true, isRainbow = false;
+    drawingNormal();
+});
+
+rainbowButton.addEventListener("click", () => {
+    isRainbow = true, isNormal = false;
+    drawingRainbow();
+});
+
+drawGrid(16);
