@@ -10,10 +10,11 @@ function drawGrid(number) {
     }
     if (isNormal) drawingNormal();
     else if (isRainbow) drawingRainbow();
+    else if (isEraser) erasing();
 }
 
 function drawingNormal() {
-    isNormal = true, isRainbow = false;
+    isNormal = true, isRainbow = false, isEraser = false;
 
     let squares = grid.querySelectorAll(".square");
 
@@ -25,7 +26,7 @@ function drawingNormal() {
 }
 
 function drawingRainbow() {
-    isNormal = false, isRainbow = true;
+    isNormal = false, isRainbow = true, isEraser = false;
 
     let squares = grid.querySelectorAll(".square");
 
@@ -39,12 +40,25 @@ function drawingRainbow() {
     }
 }
 
+function erasing() {
+    isEraser = true, isNormal = false, isRainbow = false;
+
+    let squares = grid.querySelectorAll(".square");
+
+    for (let square of squares) {
+        square.addEventListener("mousemove", () => {
+            square.style.backgroundColor = "transparent";
+        })
+    }
+}
+
 const grid = document.querySelector(".grid");
 const clearButton = document.querySelector(".clearButton");
 const resizeButton = document.querySelector(".resizeButton");
 const normalButton = document.querySelector(".normalButton");
 const rainbowButton = document.querySelector(".rainbowButton");
-let isNormal = true, isRainbow = false;
+const eraserButton = document.querySelector(".eraserButton");
+let isNormal = true, isRainbow = false, isEraser = false;
 let number = 16;
 
 clearButton.addEventListener("click", () => {
@@ -66,13 +80,18 @@ resizeButton.addEventListener("click", () => {
 })
 
 normalButton.addEventListener("click", () => {
-    isNormal = true, isRainbow = false;
+    isNormal = true, isRainbow = false, isEraser = false;
     drawingNormal();
 });
 
 rainbowButton.addEventListener("click", () => {
-    isRainbow = true, isNormal = false;
+    isRainbow = true, isNormal = false, isEraser = false;
     drawingRainbow();
+});
+
+eraserButton.addEventListener("click", () => {
+    isEraser = true, isNormal = false, isRainbow = false;
+    erasing();
 });
 
 drawGrid(number);
